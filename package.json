@@ -1,0 +1,34 @@
+{
+  "name": "googlemapswithsocketio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
+    "start": "node server",
+    "webpack": "webpack -d --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rtaveras824/GoogleMapsWithSocketIO.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rtaveras824/GoogleMapsWithSocketIO/issues"
+  },
+  "homepage": "https://github.com/rtaveras824/GoogleMapsWithSocketIO#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
+    "babel-preset-es2015": "^6.24.1",
+    "webpack": "^4.36.1",
+    "webpack-cli": "^3.3.6"
+  }
+}
