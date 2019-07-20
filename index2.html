@@ -20,8 +20,8 @@
   </head>
   <body>
     <div id="map"></div>
-    <script src="main.js"></script>
-    <script src="socket.io.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/socket.io.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBD2gWfrjdc9H0_4tcVXOREL1kHR1ZNdtY&callback=mapsLoaded"
     async defer></script>
     <script>
@@ -39,6 +39,7 @@
         function() { 
           userLatitude = map.getCenter().lat();
           userLongitude = map.getCenter().lng();
+         
           socket.emit('coordinates', 
             { 
               id: userId, 
@@ -47,10 +48,11 @@
                 lng: userLongitude
               }
             },
-            pageId); 
+            pageId);
         }, 3000);
 
       socket.on('coordinates', function(coordinates) {
+        console.log('coordinates called');
         if (markerStore.hasOwnProperty(coordinates.id)) {
           markerStore[coordinates.id].setPosition(coordinates.coords);
         } else {

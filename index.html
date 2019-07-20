@@ -20,16 +20,20 @@
   </head>
   <body>
     <div id="map"></div>
-    <script src="main.js"></script>
-    <script src="socket.io.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/socket.io.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBD2gWfrjdc9H0_4tcVXOREL1kHR1ZNdtY&callback=mapsLoaded"
     async defer></script>
     <script>
       var pageId = 1;
       var userId = Math.floor(Math.random() * 30) + 1;
+      var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+      var gif = 'img/hearts.gif'
       console.log('USER ID: ', userId);
 
       var markerStore = {};
+
+
 
       var socket = io.connect();
 
@@ -37,8 +41,16 @@
 
       window.setInterval(
         function() { 
+          var inArea = 0;
           userLatitude = map.getCenter().lat();
           userLongitude = map.getCenter().lng();
+          for (marker in markerStore) {
+            if (areaCovered.contains(markerStore[marker].getPosition())) {
+              inArea++;
+            }
+          }
+          console.log(inArea);
+
           socket.emit('coordinates', 
             { 
               id: userId, 
@@ -47,17 +59,21 @@
                 lng: userLongitude
               }
             },
-            pageId); 
+            pageId);
+
         }, 3000);
 
       socket.on('coordinates', function(coordinates) {
+        console.log('coordinates called');
         if (markerStore.hasOwnProperty(coordinates.id)) {
           markerStore[coordinates.id].setPosition(coordinates.coords);
         } else {
           var marker = new google.maps.Marker({
             position: coordinates.coords,
             title: coordinates.id.toString(),
-            map
+            map,
+            icon: gif,
+            optimized: false
           });
           markerStore[coordinates.id] = marker;
         }

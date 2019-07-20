@@ -18,10 +18,11 @@ io.sockets.on('connection', function(socket) {
 		io.to(pageId).emit('coordinates', coordinates);
 	});
 
-	socket.on('remove-marker', function(id) {
-		console.log(id);
-		//io.emit('remove-marker', id);
-	});
+	// NOT DOING ANYTHING
+	// socket.on('remove-marker', function(id) {
+	// 	console.log(id);
+	// 	//io.emit('remove-marker', id);
+	// });
 
 	socket.on('disconnect', function() {
 		console.log('user disconnected');
@@ -30,7 +31,7 @@ io.sockets.on('connection', function(socket) {
 	});
 });
 
-app.use(express.static('js'));
+app.use(express.static('assets'));
 
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
