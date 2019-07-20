@@ -3,6 +3,8 @@ var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
+var PORT = process.env.PORT || 3000;
+
 io.sockets.on('connection', function(socket) {
 	var userId;
 
@@ -41,7 +43,7 @@ app.get('/2', function(req, res) {
 	res.sendFile(__dirname + '/index2.html');
 });
 
-http.listen(3000);
+http.listen(PORT);
 
 // app.listen(3000, function() {
 // 	console.log('Listening on port 3000');
