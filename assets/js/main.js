@@ -1,6 +1,4 @@
  var latitude = 28.5494211, longitude = -81.17772269999999;
- var userLatitude = 0;
- var userLongitude = 0;
 
  var areaCovered;
 
@@ -11,27 +9,10 @@
  console.log(latitude);
       
 function mapsLoaded() {
-  if (navigator.geolocation) {
     google.maps.Circle.prototype.contains = function(latLng) {
       return this.getBounds().contains(latLng) && google.maps.geometry.spherical.computeDistanceBetween(this.getCenter(), latLng) <= this.getRadius();
     }
     initMap(latitude, longitude);
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else {
-
-  }
-}
-
-function showPosition(position) {
-  userLatitude = position.coords.latitude;
-  userLongitude = position.coords.longitude;
-
-  // var marker = new google.maps.Marker({
-  //   map: map,
-  //   title: 'What'
-  // });
-
-  // marker.setPosition({lat: userLatitude, lng: userLongitude});
 }
 
 function convertMilesToMeters(miles) {

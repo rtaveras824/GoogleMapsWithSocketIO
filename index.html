@@ -33,35 +33,53 @@
 
       var markerStore = {};
 
-
+      var userLatitude, userLongitude;
 
       var socket = io.connect();
 
       socket.emit('join', pageId);
 
-      window.setInterval(
-        function() { 
-          var inArea = 0;
-          userLatitude = map.getCenter().lat();
-          userLongitude = map.getCenter().lng();
-          for (marker in markerStore) {
-            if (areaCovered.contains(markerStore[marker].getPosition())) {
-              inArea++;
-            }
-          }
-          console.log(inArea);
+      function showPosition(position) {
+        userLatitude = position.coords.latitude;
+        userLongitude = position.coords.longitude;
 
-          socket.emit('coordinates', 
-            { 
-              id: userId, 
-              coords: {
-                lat: userLatitude, 
-                lng: userLongitude
+        // var marker = new google.maps.Marker({
+        //   map: map,
+        //   title: 'What'
+        // });
+
+        // marker.setPosition({lat: userLatitude, lng: userLongitude});
+      }
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+
+        window.setInterval(
+          function() { 
+            var inArea = 0;
+            // userLatitude = map.getCenter().lat();
+            // userLongitude = map.getCenter().lng();
+            for (marker in markerStore) {
+              if (areaCovered.contains(markerStore[marker].getPosition())) {
+                inArea++;
               }
-            },
-            pageId);
+            }
+            console.log(inArea);
 
-        }, 3000);
+            socket.emit('coordinates', 
+              { 
+                id: userId, 
+                coords: {
+                  lat: userLatitude, 
+                  lng: userLongitude
+                }
+              },
+              pageId);
+
+          }, 3000);
+      } else {
+
+      }
 
       socket.on('coordinates', function(coordinates) {
         console.log('coordinates called');
